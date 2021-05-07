@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="./assets/regist.css">
+    <script src="./assets/regist.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">What are you doing there?! There was an option that says:
+        register or log in... and you just turned it off and now are reading this?!</h1>
+        <button class="oops-btn">oops!!!</button>
+    </div>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-header common-style">
+            <span class="close">&times;</span>
+            <h3>Hi, please make <button class="regist-menu show-forms">Registration</button></h3>
+            <h3>or <button class="login-menu show-forms">Log In</button></h3>
+        </div>
+        <div class="modal-content common-style">
+            <div class="regist-form container">
+                <h1>Register</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+            
+                <label for="username">Username</label>
+                <input class="regist-username" type="text" placeholder="Enter Username" name="username" id="username" required>
+                
+                <label for="email">Email</label>
+                <input class="regist-email" type="text" placeholder="Enter Email" name="email" id="email" pattern=".+@" required>
+            
+                <label for="psw">Password</label>
+                <input class="regist-psw" type="password" size="6" placeholder="Enter Password" name="psw" id="psw" required>
+            
+                <label for="psw-repeat">Repeat Password</label>
+                <input class="repeat-psw" type="password" size="6" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+                <hr>
+            
+                <button type="submit" class="register-btn">Register</button>
+            </div>
+            
+            <div class="login-form container">
+                <label for="username">Username</label>
+                <input class="login-username" type="text" id="username" name="username" placeholder="Enter username" required>
+                
+                <label for="pwd">Password</label>
+                <input class="login-pwd" type="password" id="pwd" name="pwd" placeholder="Enter password" required>
+                
+                <button type="submit" class="login-btn">Log In</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

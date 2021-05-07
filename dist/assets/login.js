@@ -7,6 +7,7 @@ var writingBox = document.querySelector(".writing-box");
 var alertText = document.querySelector(".alert-hidden");
 var messagesList = document.querySelector(".messages");
 var sendBtn = document.querySelector(".send-button");
+var chatOwner = document.querySelector(".chat-owner");
 var conversation = [];
 
 var generateId = function generateId() {
@@ -17,10 +18,8 @@ var sendingTime = new Date();
 sendBtn.addEventListener("click", sendMessage);
 
 if (localStorage.getItem("conversation")) {
-  conversation = JSON.parse(localStorage.getItem("conversation")); // console.log(conversation);
-
+  conversation = JSON.parse(localStorage.getItem("conversation"));
   conversation.forEach(function (message) {
-    //   render(conversation);
     creatVisual(message);
   });
 }
@@ -50,9 +49,9 @@ function toggleClasses(el, cla, time) {
 }
 
 function render() {
-  var message = new ConversetionMessage(generateId(), writingBox.value, "SMS " + sendingTime.getHours() + ":" + sendingTime.getMinutes());
-  conversation.push(message);
-  console.log(conversation);
+  var message = new ConversetionMessage(generateId(), writingBox.value, "SMS " + sendingTime.getHours() + ":" + sendingTime.getMinutes()); // conversation.push(message);
+  // console.log(conversation);
+
   var singleMessage = document.createElement("li");
   singleMessage.classList.add("single-message");
   singleMessage.dataset.id = message.id;

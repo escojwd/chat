@@ -2,6 +2,7 @@ const writingBox = document.querySelector(".writing-box");
 const alertText = document.querySelector(".alert-hidden");
 const messagesList = document.querySelector(".messages");
 const sendBtn = document.querySelector(".send-button");
+const chatOwner = document.querySelector(".chat-owner");
 
 let conversation = [];
 
@@ -15,9 +16,7 @@ sendBtn.addEventListener("click", sendMessage);
 
 if (localStorage.getItem("conversation")) {
   conversation = JSON.parse(localStorage.getItem("conversation"));
-  // console.log(conversation);
   conversation.forEach((message) => {
-    //   render(conversation);
     creatVisual(message);
   });
 }
@@ -52,8 +51,8 @@ function render() {
     "SMS " + sendingTime.getHours() + ":" + sendingTime.getMinutes()
   );
 
-  conversation.push(message);
-  console.log(conversation);
+  // conversation.push(message);
+  // console.log(conversation);
 
   let singleMessage = document.createElement("li");
   singleMessage.classList.add("single-message");
