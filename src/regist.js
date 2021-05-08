@@ -1,5 +1,5 @@
-// import login from "./login";
 import bcrypt from "bcryptjs";
+import database from "./firebase";
 
 const modalWrap = document.querySelector(".modal"); // modal
 const closeBtn = document.querySelector(".close"); // modal closer
@@ -19,11 +19,25 @@ const loginUsername = document.querySelector(".login-username");
 const loginPwd = document.querySelector(".login-pwd");
 const loginBtn = document.querySelector(".login-btn");
 
-const users = JSON.parse(localStorage.getItem("users")) || [];
+let users = [];
+window.users = users;
+
+database
+  .ref()
+  .child("users")
+  .get()
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      users = snapshot.val();
+      window.users = users;
+    }
+  });
 
 const generateId = function () {
   return "_" + Math.random().toString(36).substr(2, 9);
 };
+
+let loginedUser = false;
 
 registerBtn.addEventListener("click", creatAccount);
 loginBtn.addEventListener("click", userLogin);
@@ -75,12 +89,6 @@ function creatAccount() {
     repeatPsw.value === "" ||
     registPsw.value !== repeatPsw.value
   ) {
-    registUsername.value = "";
-    registEmail.value = "";
-    registPsw.value = "";
-    repeatPsw.value = "";
-    registPsw.value = "";
-    repeatPsw.value = "";
     alert("Something went wrong");
     return;
   }
@@ -91,8 +99,11 @@ function creatAccount() {
       hashPassword
     );
     users.push(newUser);
-    saveToLocal(users);
-    window.location.href = "./index.html";
+    saveToFirebase(newUser);
+    alert("You have an account... please Log In");
+    emptyInputs();
+    loginForm.style.display = "block";
+    registForm.style.display = "none";
   });
   //   console.log("we save your info");
 }
@@ -104,26 +115,51 @@ function userLogin() {
     loginPwd.value = "";
   }
 
-  bcrypt.hash(loginPwd.value, 12).then((hashPassword) => {
-    const currentUser = users.find(
-      (user) =>
-        user.username === loginUsername.value && hashPassword === user.password
-    );
-    if (!currentUser) {
-      alert("something went wrong");
-      return;
+  let currentUser;
+
+  for (const key in users) {
+    if (users[key].username === loginUsername.value) {
+      currentUser = users[key];
+      break;
     }
-    // document.querySelector(".chat-owner").textContent = user.username;
-    window.location.href = "./index.html";
+  }
+
+  // console.log(users);
+
+  if (!currentUser) {
+    alert("No such user");
+    loginUsername.value = "";
+    loginPwd.value = "";
+    return;
+  }
+
+  bcrypt.compare(loginPwd.value, currentUser.password).then((res) => {
+    if (res) {
+      sessionStorage.setItem("logged", loginedUser);
+      window.location.href = "./index.html";
+    } else {
+      alert("something is wrong");
+    }
   });
 }
 
-function checkValidation() {}
+// function checkValidation() {}
 
-function logUsers(array) {
-  console.log(array);
+// function logUsers(array) {
+//   console.log(array);
+// }
+
+function saveToFirebase(el) {
+  database.ref("users/" + el.id).set(el);
+  // localStorage.setItem("users", JSON.stringify(el));
 }
 
-function saveToLocal(el) {
-  localStorage.setItem("users", JSON.stringify(el));
+function emptyInputs() {
+  console.log("asdas");
+  registUsername.value = "";
+  registEmail.value = "";
+  registPsw.value = "";
+  repeatPsw.value = "";
+  registPsw.value = "";
+  repeatPsw.value = "";
 }

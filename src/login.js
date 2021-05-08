@@ -1,3 +1,12 @@
+import database from "./firebase";
+
+if (!sessionStorage.getItem("logged")) {
+  alert(
+    "Hi, you are on Chat page. why are you trying to cheat?! Sing to your account to continuous"
+  );
+  window.location.href = "./regist.html";
+}
+
 const writingBox = document.querySelector(".writing-box");
 const alertText = document.querySelector(".alert-hidden");
 const messagesList = document.querySelector(".messages");
@@ -35,6 +44,7 @@ function sendMessage() {
   toggleClasses(sendBtn, "is-active", 1200);
   render();
   saveToLocal(conversation);
+  // console.log("this is message");
 }
 
 function toggleClasses(el, cla, time) {
@@ -51,7 +61,7 @@ function render() {
     "SMS " + sendingTime.getHours() + ":" + sendingTime.getMinutes()
   );
 
-  // conversation.push(message);
+  conversation.push(message);
   // console.log(conversation);
 
   let singleMessage = document.createElement("li");
@@ -85,6 +95,7 @@ function addChild(el1, el2) {
 }
 
 function saveToLocal(el) {
+  console.log(el);
   localStorage.setItem("conversation", JSON.stringify(el));
 }
 
