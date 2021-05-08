@@ -53039,11 +53039,22 @@ function userLogin() {
     loginPwd.value = "";
   }
 
-  users.find(function (user) {
-    return user.username = loginUsername.value;
-  }); // if (loginUsername.value !== ) {
-  // }
+  bcryptjs__WEBPACK_IMPORTED_MODULE_0___default().hash(loginPwd.value, 12).then(function (hashPassword) {
+    var currentUser = users.find(function (user) {
+      return user.username === loginUsername.value && hashPassword === user.password;
+    });
+
+    if (!currentUser) {
+      alert("something went wrong");
+      return;
+    } // document.querySelector(".chat-owner").textContent = user.username;
+
+
+    window.location.href = "./index.html";
+  });
 }
+
+function checkValidation() {}
 
 function logUsers(array) {
   console.log(array);

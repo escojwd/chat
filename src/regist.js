@@ -104,12 +104,21 @@ function userLogin() {
     loginPwd.value = "";
   }
 
-  users.find((user) => (user.username = loginUsername.value));
-
-  // if (loginUsername.value !== ) {
-
-  // }
+  bcrypt.hash(loginPwd.value, 12).then((hashPassword) => {
+    const currentUser = users.find(
+      (user) =>
+        user.username === loginUsername.value && hashPassword === user.password
+    );
+    if (!currentUser) {
+      alert("something went wrong");
+      return;
+    }
+    // document.querySelector(".chat-owner").textContent = user.username;
+    window.location.href = "./index.html";
+  });
 }
+
+function checkValidation() {}
 
 function logUsers(array) {
   console.log(array);
